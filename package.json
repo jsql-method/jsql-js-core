@@ -1,0 +1,24 @@
+{
+  "name": "jsql-core",
+  "version": "1.1.7",
+  "description": "JSQL core plugin",
+  "main": "jsql-core",
+  "typings": "jsql-core.d.ts",
+  "scripts": {},
+  "keywords": [
+    "jsql-core",
+    "jsql",
+    "jsql-it",
+    "jsql-optimization"
+  ],
+  "author": "JSQL",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-clean": "^1.0.0"
+  }
+}
