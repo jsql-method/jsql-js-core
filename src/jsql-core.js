@@ -18,6 +18,15 @@ if (window.JSQL) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         };
+
+        if(config.apiKey){
+            this.headers['Api-Key'] = config.apiKey;
+        }
+
+        if(config.devKey){
+            this.headers['Dev-Key'] = config.devKey;
+        }
+
         this.hideErrors = false;
         this.rxjs = false;
 
@@ -100,7 +109,7 @@ JSQL.prototype.construct = function (token, type, options) {
             options = { headers: {} };
         }
 
-        options.headers['TXID'] = token.txid;
+        options.headers['txid'] = token.txid;
 
         token = token.token;
 
@@ -110,7 +119,7 @@ JSQL.prototype.construct = function (token, type, options) {
         prepareForTransaction();
     }else if(token !== null && token !== undefined){
 
-        if(token.token && token.tx){
+        if(token.token && token.txid){
             prepareForTransaction();
         }
 
