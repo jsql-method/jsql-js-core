@@ -1,8 +1,6 @@
 /*
- * jsql-core
- *
- * Copyright (c) 2018 JSQL
- * Licensed under the ISC license.
+ * Copyright (c) 2017-2019 JSQL Sp. z.o.o. (Ltd, LLC) www.jsql.it
+ * See LICENSE or https://jsql.it/public-packages-license
  */
 
 'use strict';
@@ -30,32 +28,29 @@ if (window.JSQL) {
 }
 
 JSQL.prototype.setConfig = function (config) {
+
     if (config === undefined || config === null || Object.keys(config).length === 0) {
-        this.throw('JSQL: No options provided');
+        config = {};
     }
 
     if (config.host === undefined || config.host === null || typeof config.host !== 'string' || config.host.trim().length === 0 || config.host === '') {
-        this.throw('JSQL: Invalid host');
+        config.host = 'https://provider.jsql.it/';
     }
 
-    if (config.host === undefined || config.host === null || typeof config.host !== 'string' || config.host.trim().length === 0 || config.host === '') {
-        config.path = '/';
+    if (config.path === undefined || config.path === null || typeof config.path !== 'string' || config.path.trim().length === 0 || config.path === '') {
+        config.path = '/api/jsql/';
     }
 
-    if (config.host.substring(config.host.length - 1, config.host.length) === '/') {
-        if (config.path.substring(0, 1) === '/') {
-            config.path = config.path.substring(1, config.path.length);
-        }
+    if (config.host.endsWith('/') && config.path.startsWith('/')) {
+        config.path = config.path.substring(1, config.path.length);
     }
 
-    if (config.host.substring(config.host.length - 1, config.host.length) !== '/') {
-        if (config.path && config.path.substring(0, 1) !== '/') {
-            config.path = '/' + config.path;
-        }
+    if (!config.host.endsWith('/') && !config.path.startsWith('/')) {
+        config.path = '/'+config.path;
     }
 
-    if (config.path !== undefined && config.path !== null && config.path.substring(config.path.length - 1, config.path.length) !== '/') {
-        config.path = config.path + '/';
+    if (!config.path.endsWith('/')) {
+        config.path += '/';
     }
 
     if (config.hideErrors !== undefined && config.hideErrors !== null) {
@@ -63,7 +58,7 @@ JSQL.prototype.setConfig = function (config) {
     }
 
     this.host = config.host;
-    this.path = config.path ? config.path : '/';
+    this.path = config.path;
     this.url = this.host + this.path;
     this.rxjs = config.rxjs === undefined ? false : config.rxjs;
 
@@ -78,7 +73,7 @@ JSQL.prototype.setConfig = function (config) {
  * @returns {*}
  */
 JSQL.prototype.request = function () {
-    this.throw('JSQL: No request implementation');
+    this.throw('No request implementation');
 };
 
 /**
@@ -89,7 +84,7 @@ JSQL.prototype.request = function () {
  * @param type
  */
 JSQL.prototype.wrap = function () {
-    this.throw('JSQL: No wrap implementation');
+    this.throw('No wrap implementation');
 };
 
 JSQL.prototype.construct = function (token, type, options) {
@@ -105,7 +100,6 @@ JSQL.prototype.construct = function (token, type, options) {
             options = { headers: {} };
         }
 
-        options.headers['TX'] = true;
         options.headers['TXID'] = token.txid;
 
         token = token.token;
@@ -123,9 +117,9 @@ JSQL.prototype.construct = function (token, type, options) {
     }
 
     if(isTransaction && type !== 'rollback' && type !== 'commit' && token === undefined || token === null || (typeof token !== 'string' && !this.isArray(token))){
-        this.throw('JSQL: Unable to execute with unset token');
+        this.throw('Unable to execute with unset token');
     }else if(token === undefined || token === null || (typeof token !== 'string' && !this.isArray(token))) {
-        this.throw('JSQL: Unable to execute with unset token');
+        this.throw('Unable to execute with unset token');
     }
 
     var defaultOptions = {
@@ -186,17 +180,17 @@ JSQL.prototype.construct = function (token, type, options) {
         param: function (paramName, paramValue) {
 
             if(promise.type === 'rollback'){
-                _JSQL.throw('JSQL: Transactions already rollbacked');
+                _JSQL.throw('Transactions already rollbacked');
                 return promise;
             }
 
             if(promise.type === 'commit'){
-                _JSQL.throw('JSQL: Transaction already commited');
+                _JSQL.throw('Transaction already commited');
                 return promise;
             }
 
             if (promise.isUsedParamsArray) {
-                _JSQL.throw('JSQL: Cannot mix params array and single params');
+                _JSQL.throw('Cannot mix params array and single params');
                 return promise;
             }
 
@@ -209,7 +203,7 @@ JSQL.prototype.construct = function (token, type, options) {
                 promise.data.params[paramName] = paramValue;
 
             } else {
-                _JSQL.throw('JSQL: "param" function accept args: [paramName:string, paramValue:primitive]');
+                _JSQL.throw('"param" function accept args: [paramName:string, paramValue:primitive]');
             }
 
             return promise;
@@ -218,19 +212,19 @@ JSQL.prototype.construct = function (token, type, options) {
         params: function (paramsArrayOrParamsObject) {
 
             if(promise.type === 'rollback'){
-                _JSQL.throw('JSQL: Transactions already rollbacked');
+                _JSQL.throw('Transactions already rollbacked');
                 return promise;
             }
 
             if(promise.type === 'commit'){
-                _JSQL.throw('JSQL: Transaction already commited');
+                _JSQL.throw('Transaction already commited');
                 return promise;
             }
 
             if (_JSQL.isArray(paramsArrayOrParamsObject)) {
 
                 if (!_JSQL.isEmptyObject(promise.data.params)) {
-                    _JSQL.throw('JSQL: Cannot mix params array and object params');
+                    _JSQL.throw('Cannot mix params array and object params');
                     return promise;
                 }
 

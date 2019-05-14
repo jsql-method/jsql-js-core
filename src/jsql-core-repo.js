@@ -1,9 +1,8 @@
 /*
- * jsql-core
- *
- * Copyright (c) 2018 JSQL
- * Licensed under the ISC license.
+ * Copyright (c) 2017-2019 JSQL Sp. z.o.o. (Ltd, LLC) www.jsql.it
+ * See LICENSE or https://jsql.it/public-packages-license
  */
+
 
 /**
  * Named queries repositories
@@ -30,9 +29,16 @@ JSQL.prototype.repo = function (name) {
 
     var self = this;
     var repoObj = {
-        namedQuery: function (queryName, sqlQueryFunction) {
-            self.set(queryName, sqlQueryFunction);
+        name: name,
+        set: function (queryName, sqlQueryFunction) {
+            self.set(this.name + '.' + queryName, sqlQueryFunction);
             return this;
+        },
+        get: function (queryName) {
+            var args = self.toArray(arguments);
+            args.shift();
+            args.unshift(this.name + '.' + queryName);
+            return self.get.apply(self, args);
         }
     };
 
@@ -42,7 +48,7 @@ JSQL.prototype.repo = function (name) {
 
 JSQL.prototype.get = function (queryName) {
 
-    var set = this.querySet[queryName];
+    var set = this.querySet[queryName] || null;
     if (this.isFunction(set)) {
 
         var args = [];

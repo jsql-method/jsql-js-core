@@ -1,20 +1,21 @@
 /*
- * jsql-core
- *
- * Copyright (c) 2018 JSQL
- * Licensed under the ISC license.
+ * Copyright (c) 2017-2019 JSQL Sp. z.o.o. (Ltd, LLC) www.jsql.it
+ * See LICENSE or https://jsql.it/public-packages-license
  */
+
 
 JSQL.prototype.txid = function(){
 
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for (var i = 0; i < 5; i++){
+    var time = new Date().getTime()+'';
+    for (var i = 0; i < time.length; i++){
         text += possible.charAt(Math.floor(Math.random() * possible.length));
+        text += time[0];
     }
 
-    return text + '_' + new Date().getTime();
+    return text;
 };
 
 JSQL.prototype.tx = function () {

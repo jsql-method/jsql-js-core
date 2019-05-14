@@ -1,5 +1,10 @@
 @echo off
 @chcp 1250 >nul
+
+CALL prepare.bat
+CALL build.bat
+CALL test.bat
+
 ECHO Po pojawieniu si� "Username" podaj login do rejestru NPM
 CALL npm login
 

@@ -1,9 +1,8 @@
 /*
- * jsql-core
- *
- * Copyright (c) 2018 JSQL
- * Licensed under the ISC license.
+ * Copyright (c) 2017-2019 JSQL Sp. z.o.o. (Ltd, LLC) www.jsql.it
+ * See LICENSE or https://jsql.it/public-packages-license
  */
+
 
 JSQL.prototype.isFunction = function (obj) {
     return typeof obj === 'function' || false;
@@ -12,7 +11,7 @@ JSQL.prototype.isFunction = function (obj) {
 JSQL.prototype.throw = function (error) {
 
     if (!this.hideErrors) {
-        throw new Error(error);
+        throw new Error('JSQL Core error: '+error);
     }
 
 };
@@ -56,5 +55,16 @@ JSQL.prototype.isArray = function (obj) {
     } else {
         return Array.isArray(obj);
     }
+
+};
+
+JSQL.prototype.toArray = function(arrayLike){
+
+    var arr = [];
+    for(var i = 0; i < arrayLike.length; i++){
+        arr[i] = arrayLike[i];
+    }
+
+    return arr;
 
 };

@@ -1,9 +1,8 @@
 {
   "name": "jsql-core",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "JSQL core plugin",
   "main": "jsql-core",
-  "typings": "jsql-core.d.ts",
   "scripts": {},
   "keywords": [
     "jsql-core",
@@ -12,13 +11,21 @@
     "jsql-optimization"
   ],
   "author": "JSQL",
-  "license": "ISC",
+  "licenses": [
+    {
+      "type": "LicenseRef-LICENSE",
+      "url": "https://jsql.it/public-packages-license"
+    }
+  ],
   "dependencies": {},
   "devDependencies": {
+    "chai": "^4.2.0",
     "grunt": "^1.0.3",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-uglify": "^4.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-clean": "^1.0.0"
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-open": "^0.2.4",
+    "mocha": "^5.2.0"
   }
 }

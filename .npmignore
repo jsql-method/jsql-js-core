@@ -1,0 +1,8 @@
+.idea/
+node_modules/
+src/
+.gitignore
+.npmrc
+*.bat
+Gruntfile.s
+jsql-core.d.ts
