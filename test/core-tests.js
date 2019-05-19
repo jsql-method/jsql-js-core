@@ -9,6 +9,7 @@ describe('JSQL core tests', function () {
             try {
                 jsql = new JSQL();
             }catch (e){
+                console.log(e);
                 assert.isTrue(false);
             }
 

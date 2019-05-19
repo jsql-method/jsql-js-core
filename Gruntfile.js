@@ -11,7 +11,10 @@ module.exports = function (grunt) {
     grunt.initConfig({
 
         clean: {
-            files: ['dist']
+
+            dist: ['dist'],
+            prod: ['dist/jsql-core.js']
+
         },
 
         concat: {
@@ -69,9 +72,9 @@ module.exports = function (grunt) {
 
         },
 
-        open : {
-            browser : {
-                path : 'test/index.html'
+        open: {
+            browser: {
+                path: 'test/index.html'
             },
         }
 
@@ -83,8 +86,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-open');
 
-    grunt.registerTask('default', ['clean', 'concat:prod', 'uglify', 'copy']);
-    grunt.registerTask('build-test', ['clean', 'concat:test', 'uglify', 'copy']);
+    grunt.registerTask('default', ['clean:dist', 'concat:prod', 'uglify', 'copy', 'clean:prod']);
+    grunt.registerTask('dev', ['clean:dist', 'concat:prod', 'copy']);
+    grunt.registerTask('build-test', ['clean:dist', 'concat:test', 'copy']);
     grunt.registerTask('open-mocha', ['open:browser']);
 
 
