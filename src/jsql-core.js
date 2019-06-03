@@ -11,6 +11,7 @@ if (window.JSQL) {
 
     window.JSQL = function (config) {
 
+        this.__version = '1.3.0';
         this.host = null;
         this.path = null;
         this.querySet = {};
@@ -39,6 +40,10 @@ if (window.JSQL) {
     }
 
 }
+
+JSQL.prototype.version = function(){
+    console.warn('JSQL version: '+this.__version);
+};
 
 JSQL.prototype.setConfig = function (config) {
 
