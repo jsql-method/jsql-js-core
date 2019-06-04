@@ -1,8 +1,8 @@
 {
   "name": "jsql-core",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "JSQL core plugin",
-  "main": "jsql-core",
+  "main": "jsql-core.min.js",
   "typings": "jsql-core.d.ts",
   "scripts": {},
   "keywords": [
