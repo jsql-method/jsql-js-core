@@ -68,3 +68,19 @@ JSQL.prototype.toArray = function(arrayLike){
     return arr;
 
 };
+
+JSQL.prototype.removePrefix = function(token){
+
+    if(this.isArray(token)){
+
+        for(var i = 0; i < token.length; i++){
+            token[i] = token[i].replace('@sql','').trim();
+        }
+
+        return token;
+
+    }else{
+        return token.replace('@sql','').trim();
+    }
+
+}

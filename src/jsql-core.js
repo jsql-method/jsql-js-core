@@ -11,7 +11,7 @@ if (window.JSQL) {
 
     window.JSQL = function (config) {
 
-        this.__version = '1.3.0';
+        this.__version = '1.5.0';
         this.host = null;
         this.path = null;
         this.querySet = {};
@@ -184,6 +184,8 @@ JSQL.prototype.construct = function (token, type, options) {
         }
 
     }
+
+    token = this.removePrefix(token);
 
     var promise = {
         xhrPromise: null,
