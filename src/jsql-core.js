@@ -11,7 +11,7 @@ if (window.JSQL) {
 
     window.JSQL = function (config) {
 
-        this.__version = '1.5.0';
+        this.__version = '1.6.0';
         this.host = null;
         this.path = null;
         this.querySet = {};
