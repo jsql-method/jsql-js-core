@@ -20,13 +20,13 @@ if (window.JSQL) {
             'Content-Type': 'application/json'
         };
 
-        if(config){
+        if (config) {
 
-            if(config.apiKey){
+            if (config.apiKey) {
                 this.headers['Api-Key'] = config.apiKey;
             }
 
-            if(config.devKey){
+            if (config.devKey) {
                 this.headers['Dev-Key'] = config.devKey;
             }
 
@@ -41,8 +41,8 @@ if (window.JSQL) {
 
 }
 
-JSQL.prototype.version = function(){
-    console.warn('JSQL version: '+this.__version);
+JSQL.prototype.version = function () {
+    console.warn('JSQL version: ' + this.__version);
 };
 
 JSQL.prototype.setConfig = function (config) {
@@ -64,7 +64,7 @@ JSQL.prototype.setConfig = function (config) {
     }
 
     if (!config.host.endsWith('/') && !config.path.startsWith('/')) {
-        config.path = '/'+config.path;
+        config.path = '/' + config.path;
     }
 
     if (!config.path.endsWith('/')) {
@@ -109,21 +109,22 @@ JSQL.prototype.construct = function (token, type, options) {
 
     var _JSQL = this;
 
-    if(token !== null && token !== undefined){
-        if(!token.isArray(token)){
-            if(token.__isStructure){
+    if (token !== null && token !== undefined) {
+        if (!this.isArray(token)) {
+            if (token.__isStructure) {
                 token = token.build();
             }
         }
     }
 
     var isTransaction = false;
-    function prepareForTransaction(){
+
+    function prepareForTransaction() {
 
         isTransaction = true;
 
-        if(!options){
-            options = { headers: {} };
+        if (!options) {
+            options = {headers: {}};
         }
 
         if (options.headers === undefined || options.headers === null) {
@@ -136,19 +137,19 @@ JSQL.prototype.construct = function (token, type, options) {
 
     }
 
-    if(type === 'rollback' || type === 'commit'){
+    if (type === 'rollback' || type === 'commit') {
         prepareForTransaction();
-    }else if(token !== null && token !== undefined){
+    } else if (token !== null && token !== undefined) {
 
-        if(token.token && token.txid){
+        if (token.token && token.txid) {
             prepareForTransaction();
         }
 
     }
 
-    if(isTransaction && type !== 'rollback' && type !== 'commit' && token === undefined || token === null || (typeof token !== 'string' && !this.isArray(token))){
+    if (isTransaction && type !== 'rollback' && type !== 'commit' && token === undefined || token === null || (typeof token !== 'string' && !this.isArray(token))) {
         this.throw('Unable to execute with unset token');
-    }else if(token === undefined || token === null || (typeof token !== 'string' && !this.isArray(token))) {
+    } else if (token === undefined || token === null || (typeof token !== 'string' && !this.isArray(token))) {
         this.throw('Unable to execute with unset token');
     }
 
@@ -211,12 +212,12 @@ JSQL.prototype.construct = function (token, type, options) {
         },
         param: function (paramName, paramValue) {
 
-            if(promise.type === 'rollback'){
+            if (promise.type === 'rollback') {
                 _JSQL.throw('Transactions already rollbacked');
                 return promise;
             }
 
-            if(promise.type === 'commit'){
+            if (promise.type === 'commit') {
                 _JSQL.throw('Transaction already commited');
                 return promise;
             }
@@ -243,12 +244,12 @@ JSQL.prototype.construct = function (token, type, options) {
         },
         params: function (paramsArrayOrParamsObject) {
 
-            if(promise.type === 'rollback'){
+            if (promise.type === 'rollback') {
                 _JSQL.throw('Transactions already rollbacked');
                 return promise;
             }
 
-            if(promise.type === 'commit'){
+            if (promise.type === 'commit') {
                 _JSQL.throw('Transaction already commited');
                 return promise;
             }
@@ -283,7 +284,7 @@ JSQL.prototype.construct = function (token, type, options) {
         },
         successResultCallback: function (result, callBack) {
 
-            if(promise.type === 'commit' || promise.type === 'rollback'){
+            if (promise.type === 'commit' || promise.type === 'rollback') {
 
                 if (_JSQL.rxjs) {
                     return result;
@@ -291,14 +292,20 @@ JSQL.prototype.construct = function (token, type, options) {
                     callBack(result);
                 }
 
-            }else if (promise.type === 'selectOne' && !promise.options.ignoreSelectOneMoreResults && result.length > 1) {
+            } else if (promise.type === 'selectOne' && !promise.options.ignoreSelectOneMoreResults && result.length > 1) {
                 promise.options.throwSelectOneError = true;
             } else if (_JSQL.isArray(result)) {
 
                 if (_JSQL.rxjs) {
+
+                    if (promise.type === 'selectOne' && promise.options.ignoreSelectOneMoreResults) {
+                        return result.length > 0 ? result[0] : null;
+                    }
+
                     return result;
+
                 } else if (promise.type === 'selectOne' && promise.options.ignoreSelectOneMoreResults) {
-                    callBack(result.length > 0 ? result[0] : null);
+                        callBack(result.length > 0 ? result[0] : null);
                 } else {
                     callBack(result);
                 }
@@ -306,7 +313,17 @@ JSQL.prototype.construct = function (token, type, options) {
             } else {
 
                 if (_JSQL.rxjs) {
+
+                    if (promise.type === 'selectOne' && promise.options.ignoreSelectOneMoreResults) {
+
+                        if(result.data){
+                            return result.data.length > 0 ? result.data[0] : null;
+                        }
+
+                    }
+
                     return result;
+
                 } else {
                     callBack(result);
                 }
