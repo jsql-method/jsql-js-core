@@ -109,6 +109,14 @@ JSQL.prototype.construct = function (token, type, options) {
 
     var _JSQL = this;
 
+    if(token !== null && token !== undefined){
+        if(!token.isArray(token)){
+            if(token.__isStructure){
+                token = token.build();
+            }
+        }
+    }
+
     var isTransaction = false;
     function prepareForTransaction(){
 
