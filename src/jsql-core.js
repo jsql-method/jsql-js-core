@@ -305,7 +305,7 @@ JSQL.prototype.construct = function (token, type, options) {
                     return result;
 
                 } else if (promise.type === 'selectOne' && promise.options.ignoreSelectOneMoreResults) {
-                        callBack(result.length > 0 ? result[0] : null);
+                    callBack(result.length > 0 ? result[0] : null);
                 } else {
                     callBack(result);
                 }
@@ -316,8 +316,8 @@ JSQL.prototype.construct = function (token, type, options) {
 
                     if (promise.type === 'selectOne' && promise.options.ignoreSelectOneMoreResults) {
 
-                        if(result.data){
-                            return result.data.length > 0 ? result.data[0] : null;
+                        if (result.data) {
+                            result.data = result.data.length > 0 ? result.data[0] : null;
                         }
 
                     }
@@ -325,9 +325,24 @@ JSQL.prototype.construct = function (token, type, options) {
                     return result;
 
                 } else {
+
+                    if (promise.type === 'selectOne' && promise.options.ignoreSelectOneMoreResults) {
+                        if (result.data) {
+                            result.data = result.data.length > 0 ? result.data[0] : null;
+                        }
+                    }
+
                     callBack(result);
                 }
 
+            }
+
+        },
+        ok: function () {
+
+            if (!_JSQL.rxjs) {
+                promise.then(function () {
+                });
             }
 
         },
