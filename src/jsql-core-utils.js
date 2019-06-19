@@ -74,13 +74,13 @@ JSQL.prototype.removePrefix = function(token){
     if(this.isArray(token)){
 
         for(var i = 0; i < token.length; i++){
-            token[i] = token[i].replace('@sql','').trim();
+            token[i] = token[i].replace('\x40sql','').trim();
         }
 
         return token;
 
     }else{
-        return token.replace('@sql','').trim();
+        return token.replace('\x40sql','').trim();
     }
 
 }
