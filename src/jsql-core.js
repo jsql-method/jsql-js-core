@@ -11,7 +11,7 @@ if (window.JSQL) {
 
     window.JSQL = function (config) {
 
-        this.__version = '1.8.0';
+        this.__version = '2.1.0';
         this.host = null;
         this.path = null;
         this.querySet = {};
@@ -316,8 +316,9 @@ JSQL.prototype.construct = function (token, type, options) {
 
                     if (promise.type === 'selectOne' && promise.options.ignoreSelectOneMoreResults) {
 
-                        if (result.data) {
-                            result.data = result.data.length > 0 ? result.data[0] : null;
+                        var dataProp = _JSQL.getDataProperty(result);
+                        if (dataProp != null) {
+                            result[dataProp] = result[dataProp].length > 0 ? result[dataProp][0] : null;
                         }
 
                     }
@@ -327,9 +328,12 @@ JSQL.prototype.construct = function (token, type, options) {
                 } else {
 
                     if (promise.type === 'selectOne' && promise.options.ignoreSelectOneMoreResults) {
-                        if (result.data) {
-                            result.data = result.data.length > 0 ? result.data[0] : null;
+
+                        var dataProp = _JSQL.getDataProperty(result);
+                        if (dataProp != null) {
+                            result[dataProp] = result[dataProp].length > 0 ? result[dataProp][0] : null;
                         }
+
                     }
 
                     callBack(result);

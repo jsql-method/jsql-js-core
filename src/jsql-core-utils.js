@@ -69,18 +69,40 @@ JSQL.prototype.toArray = function(arrayLike){
 
 };
 
+JSQL.prototype.getDataProperty = function(result){
+
+    if(result.data){
+        return 'data';
+    }
+
+    if(result.body){
+        return 'body';
+    }
+
+    return null;
+
+};
+
 JSQL.prototype.removePrefix = function(token){
+
+    var toRpl = {
+        a: '@',
+        b: 'sql',
+        c: function(){
+            return this.a + this.b;
+        }
+    };
 
     if(this.isArray(token)){
 
         for(var i = 0; i < token.length; i++){
-            token[i] = token[i].replace('\x40sql','').trim();
+            token[i] = token[i].replace(toRpl.c(),'').trim();
         }
 
         return token;
 
     }else{
-        return token.replace('\x40sql','').trim();
+        return token.replace(toRpl.c(),'').trim();
     }
 
 }
