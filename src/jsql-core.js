@@ -1,200 +1,5 @@
-/*
- * Copyright (c) 2017-2019 JSQL Sp. z.o.o. (Ltd, LLC) www.jsql.it
- * See LICENSE or https://jsql.it/public-packages-license
- */
-
-'use strict';
-
-if (window.JSQL) {
-    throw new Error('JSQL: Main object conflict');
-} else {
-
-    window.JSQL = function (config) {
-
-        this.__version = '2.1.0';
-        this.host = null;
-        this.path = null;
-        this.querySet = {};
-        this.headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        };
-
-        if (config) {
-
-            if (config.apiKey) {
-                this.headers['Api-Key'] = config.apiKey;
-            }
-
-            if (config.devKey) {
-                this.headers['Dev-Key'] = config.devKey;
-            }
-
-        }
-
-        this.hideErrors = false;
-        this.rxjs = false;
-
-        this.setConfig(config);
-
-    }
-
-}
-
-JSQL.prototype.version = function () {
-    console.warn('JSQL version: ' + this.__version);
-};
-
-JSQL.prototype.setConfig = function (config) {
-
-    if (config === undefined || config === null || Object.keys(config).length === 0) {
-        config = {};
-    }
-
-    if (config.host === undefined || config.host === null || typeof config.host !== 'string' || config.host.trim().length === 0 || config.host === '') {
-        config.host = 'https://provider.jsql.it/';
-    }
-
-    if (config.path === undefined || config.path === null || typeof config.path !== 'string' || config.path.trim().length === 0 || config.path === '') {
-        config.path = '/api/jsql/';
-    }
-
-    if (config.host.endsWith('/') && config.path.startsWith('/')) {
-        config.path = config.path.substring(1, config.path.length);
-    }
-
-    if (!config.host.endsWith('/') && !config.path.startsWith('/')) {
-        config.path = '/' + config.path;
-    }
-
-    if (!config.path.endsWith('/')) {
-        config.path += '/';
-    }
-
-    if (config.hideErrors !== undefined && config.hideErrors !== null) {
-        this.hideErrors = config.hideErrors;
-    }
-
-    this.host = config.host;
-    this.path = config.path;
-    this.url = this.host + this.path;
-    this.rxjs = config.rxjs === undefined ? false : config.rxjs;
-
-};
-
-/**
- * Function to override - should return promise
- *
- * @param type
- * @param data
- * @param headers
- * @returns {*}
- */
-JSQL.prototype.request = function () {
-    this.throw('No request implementation');
-};
-
-/**
- * Function to override - should return complete promise / subscribe
- * Please create promise with existing function construct()
- *
- * @param token
- * @param type
- */
-JSQL.prototype.wrap = function () {
-    this.throw('No wrap implementation');
-};
 
 JSQL.prototype.construct = function (token, type, options) {
-
-    var _JSQL = this;
-
-    if (token !== null && token !== undefined) {
-        if (!this.isArray(token)) {
-            if (token.__isStructure) {
-                token = token.build();
-            }
-        }
-    }
-
-    var isTransaction = false;
-
-    function prepareForTransaction() {
-
-        isTransaction = true;
-
-        if (!options) {
-            options = {headers: {}};
-        }
-
-        if (options.headers === undefined || options.headers === null) {
-            options.headers = {};
-        }
-
-        options.headers['txid'] = token.txid;
-
-        token = token.token;
-
-    }
-
-    if (type === 'rollback' || type === 'commit') {
-        prepareForTransaction();
-    } else if (token !== null && token !== undefined) {
-
-        if (token.token && token.txid) {
-            prepareForTransaction();
-        }
-
-    }
-
-    if (isTransaction && type !== 'rollback' && type !== 'commit' && token === undefined || token === null || (typeof token !== 'string' && !this.isArray(token))) {
-        this.throw('Unable to execute with unset token');
-    } else if (token === undefined || token === null || (typeof token !== 'string' && !this.isArray(token))) {
-        this.throw('Unable to execute with unset token');
-    }
-
-    var defaultOptions = {
-        throwSelectOneError: false,
-        ignoreSelectOneMoreResults: (type === 'selectOne' ? true : false),
-        headers: {},
-        successName: 'success',
-        errorName: 'error',
-        alwaysName: 'always'
-    };
-
-    if (options === undefined || options === null) {
-        options = defaultOptions;
-    } else {
-
-        for (var option in defaultOptions) {
-
-            if (defaultOptions.hasOwnProperty(option)) {
-
-                if (options[option] === undefined || options[option] === null) {
-                    options[option] = defaultOptions[option];
-                }
-
-            }
-
-        }
-
-    }
-
-    if (options.headers === undefined || options.headers === null) {
-        options.headers = {};
-    }
-
-    for (var header in _JSQL.headers) {
-
-        if (_JSQL.headers.hasOwnProperty(header)) {
-            if (options.headers[header] === undefined || options.headers[header] === null) {
-                options.headers[header] = _JSQL.headers[header];
-            }
-        }
-
-    }
-
-    token = this.removePrefix(token);
 
     var promise = {
         xhrPromise: null,
@@ -254,7 +59,7 @@ JSQL.prototype.construct = function (token, type, options) {
                 return promise;
             }
 
-            if (_JSQL.isArray(paramsArrayOrParamsObject)) {
+            if (Array.isArray(paramsArrayOrParamsObject)) {
 
                 if (!_JSQL.isEmptyObject(promise.data.params)) {
                     _JSQL.throw('Cannot mix params array and object params');
@@ -294,7 +99,7 @@ JSQL.prototype.construct = function (token, type, options) {
 
             } else if (promise.type === 'selectOne' && !promise.options.ignoreSelectOneMoreResults && result.length > 1) {
                 promise.options.throwSelectOneError = true;
-            } else if (_JSQL.isArray(result)) {
+            } else if (Array.isArray(result)) {
 
                 if (_JSQL.rxjs) {
 

@@ -5,4 +5,4 @@ src/
 .npmrc
 *.bat
 Gruntfile.s
-jsql-core.d.ts
+jscellator-core.d.ts

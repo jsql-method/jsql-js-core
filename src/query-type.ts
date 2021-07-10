@@ -1,0 +1,3 @@
+export enum QueryType {
+    SELECT, SELECT_ONE, INSERT, UPDATE, DELETE, COMMIT, ROLLBACK
+}
