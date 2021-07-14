@@ -1,10 +1,10 @@
-import {QueryBuilder, QueryBuilderResult} from "./src/query-builder";
-import {Jscollator} from "./src/jscollator";
-import {JscollatorQuery} from "./src/jscollator-query";
-import {QueryType} from "./src/query-type";
-import {JscollatorError} from "./src/jscollator-error";
+import {JscollatorQueryBuilder, QueryBuilderResult} from "./jscollator-query-builder";
+import {Jscollator} from "./jscollator";
+import {JscollatorQuery} from "./jscollator-query";
+import {QueryType} from "./query-type";
+import {JscollatorError} from "./jscollator-error";
 import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
-import {JscollateRequest} from "./src/jscollator-request";
+import {JscollateRequest} from "./jscollator-request";
 
 export class JscollatorBuilder<T> {
 
@@ -155,7 +155,7 @@ export class JscollatorBuilderConfig {
         if (value === null) {
             this._query = null;
         } else if (!(value instanceof QueryBuilderResult)) {
-            this._query = QueryBuilder.of(<string>value);
+            this._query = JscollatorQueryBuilder.of(<string>value);
         } else {
             this._query = <QueryBuilderResult>value;
         }

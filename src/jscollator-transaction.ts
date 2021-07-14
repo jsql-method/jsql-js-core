@@ -1,5 +1,5 @@
 import {v4 as uuidv4} from 'uuid';
-import {JscollatorBuilder, JscollatorBuilderConfig} from "../jscollator-builder";
+import {JscollatorBuilder, JscollatorBuilderConfig} from "./jscollator-builder";
 import {Jscollator} from "./jscollator";
 import {JscollatorQuery} from "./jscollator-query";
 import {QueryType} from "./query-type";

@@ -2,35 +2,40 @@
   "name": "jscellator-js",
   "version": "0.0.1",
   "description": "jscellator JavaScript plugin",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "shx rm -rf bundles lib && tsc && webpack --color --progress",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'"
   },
   "keywords": [
-    "jscellator",
-    "jsql"
+    "jscellator"
   ],
   "author": "jscellator",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
-    "uuid": "^8.3.2"
+    "@babel/runtime": "7.14.6",
+    "axios": "0.21.1",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "@babel/core": "7.12.3",
     "@babel/plugin-proposal-class-properties": "7.12.1",
+    "@babel/plugin-transform-runtime": "7.14.5",
     "@babel/preset-env": "7.10.4",
     "@babel/preset-typescript": "7.12.7",
-    "@types/chai": "^4.2.21",
-    "@types/mocha": "^8.2.3",
+    "@types/chai": "4.2.21",
+    "@types/mocha": "8.2.3",
+    "babel-loader": "8.2.2",
+    "babel-plugin-transform-class-properties": "6.24.1",
     "babel-preset-minify": "0.5.1",
-    "chai": "^4.3.4",
-    "mocha": "^9.0.2",
-    "nock": "^13.1.1",
+    "chai": "4.3.4",
+    "mocha": "9.0.2",
+    "nock": "13.1.1",
     "npm-watch": "0.6.0",
-    "ts-node": "^10.0.0",
-    "typescript": "4.1.3"
+    "shx": "0.3.3",
+    "terser-webpack-plugin": "5.1.4",
+    "ts-node": "10.0.0",
+    "typescript": "4.1.3",
+    "webpack": "5.44.0",
+    "webpack-cli": "4.7.2"
   }
 }

@@ -1,3 +1,3 @@
-import {QueryBuilderResult} from "./query-builder";
+import {QueryBuilderResult} from "./jscollator-query-builder";
 
 export type JscollatorQuery = string | QueryBuilderResult;

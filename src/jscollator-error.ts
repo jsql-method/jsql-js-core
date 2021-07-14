@@ -1,5 +1,8 @@
 import {AxiosError} from "axios";
 
+/**
+ * Contains errors from API
+ */
 export class JscollatorError {
 
     private _axiosError: AxiosError;

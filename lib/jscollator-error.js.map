@@ -1,0 +1,1 @@
+{"version":3,"file":"jscollator-error.js","sourceRoot":"","sources":["../src/jscollator-error.ts"],"names":[],"mappings":";;;AAEA;;GAEG;AACH,MAAa,eAAe;IAYxB,YAAY,UAAsB;QAC9B,IAAI,CAAC,WAAW,GAAG,UAAU,CAAC;IAClC,CAAC;IAVD,IAAI,UAAU;QACV,OAAO,IAAI,CAAC,WAAW,CAAC;IAC5B,CAAC;IAED,IAAI,UAAU,CAAC,KAAiB;QAC5B,IAAI,CAAC,WAAW,GAAG,KAAK,CAAC;IAC7B,CAAC;CAMJ;AAhBD,0CAgBC"}

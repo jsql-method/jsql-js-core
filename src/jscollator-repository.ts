@@ -1,13 +1,13 @@
-import {QueryBuilder, QueryBuilderResult} from "./query-builder";
+import {JscollatorQueryBuilder, QueryBuilderResult} from "./jscollator-query-builder";
 import {Utils} from "./utils";
 
 type ParamsCallback = (params: Record<string, any>) => QueryBuilderResult;
-type PossibleQueryType = QueryBuilderResult | QueryBuilder | string | ParamsCallback;
+type PossibleQueryType = QueryBuilderResult | JscollatorQueryBuilder | string | ParamsCallback;
 
 /**
  * Queries repository.
  */
-export class Repository {
+export class JscollatorRepository {
 
     private _queries: Map<string, PossibleQueryType> = new Map();
 
@@ -40,7 +40,7 @@ export class Repository {
         let query: PossibleQueryType = this._queries.get(queryName);
 
 
-        if (query instanceof QueryBuilder) {
+        if (query instanceof JscollatorQueryBuilder) {
             return query.build();
         } else if (query instanceof QueryBuilderResult) {
             return query;
@@ -48,7 +48,7 @@ export class Repository {
             return (query as ParamsCallback)(params);
         }
 
-        return QueryBuilder.of(query as string);
+        return JscollatorQueryBuilder.of(query as string);
 
     }
 

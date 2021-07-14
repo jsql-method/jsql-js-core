@@ -2,7 +2,7 @@ import {expect} from "chai";
 import {Jscollator} from "../src/jscollator";
 import {JscollatorError} from "../src/jscollator-error";
 import {JscollateRequest} from "../src/jscollator-request";
-import {QueryBuilder, QueryBuilderResult} from "../src/query-builder";
+import {JscollatorQueryBuilder, QueryBuilderResult} from "../src/query-builder";
 import {QueryType} from "../src/query-type";
 import nock = require("nock");
 import {JscollatorTransaction, JscollatorTransactionResponse} from "../src/jscollator-transaction";
@@ -92,7 +92,7 @@ describe('Jscollator tests', () => {
             .post(stubUri, stubRequest)
             .reply(200, stubResponse);
 
-        let qb: QueryBuilderResult = QueryBuilder.query(sqlQuery1).append(sqlQuery2).build();
+        let qb: QueryBuilderResult = JscollatorQueryBuilder.query(sqlQuery1).append(sqlQuery2).build();
         let result: Array<Person> | JscollatorError = await jscollator.select<Array<Person>>(qb).perform();
 
         scope.done();

@@ -4,8 +4,9 @@
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
+    "sourceMap": true,
     "declaration": true,
-    "outDir": "../dist",
+    "outDir": "./lib",
     "strict": false,
     "strictFunctionTypes": true,
     "preserveConstEnums": true,
@@ -13,12 +14,12 @@
     "baseUrl": "."
   },
   "include": [
-    "src",
-    "libs"
+    "src"
   ],
   "exclude": [
     "tests",
     "node_modules",
-    "dist"
+    "bundles",
+    "lib"
   ]
 }

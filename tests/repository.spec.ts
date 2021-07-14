@@ -1,13 +1,13 @@
 import {expect} from 'chai';
-import {QueryBuilder, QueryBuilderResult} from "../src/query-builder";
-import {Repository} from "../src/repository";
+import {JscollatorQueryBuilder, QueryBuilderResult} from "../src/query-builder";
+import {JscollatorRepository} from "../src/repository";
 
 describe('Repository tests', () => {
 
     it('Adding SQL query into repository', () => {
 
         const sqlQuery: string = 'select * from person';
-        let personRepository: Repository = new Repository();
+        let personRepository: JscollatorRepository = new JscollatorRepository();
         personRepository.set('findAll', sqlQuery);
 
         let queryResult: QueryBuilderResult = personRepository.get('findAll');
@@ -20,8 +20,8 @@ describe('Repository tests', () => {
     it('Adding QueryBuilderResult query into repository', () => {
 
         const sqlQuery: string = 'select * from person';
-        let personRepository: Repository = new Repository();
-        personRepository.set('findAll', QueryBuilder.of(sqlQuery));
+        let personRepository: JscollatorRepository = new JscollatorRepository();
+        personRepository.set('findAll', JscollatorQueryBuilder.of(sqlQuery));
 
         let queryResult: QueryBuilderResult = personRepository.get('findAll');
 
@@ -33,8 +33,8 @@ describe('Repository tests', () => {
     it('Adding QueryBuilder query into repository', () => {
 
         const sqlQuery: string = 'select * from person';
-        let personRepository: Repository = new Repository();
-        personRepository.set('findAll', QueryBuilder.query(sqlQuery));
+        let personRepository: JscollatorRepository = new JscollatorRepository();
+        personRepository.set('findAll', JscollatorQueryBuilder.query(sqlQuery));
 
         let queryResult: QueryBuilderResult = personRepository.get('findAll');
 
@@ -48,10 +48,10 @@ describe('Repository tests', () => {
         const sqlQuery1: string = 'select * from person';
         const sqlQuery2: string = 'order by name';
 
-        let personRepository: Repository = new Repository();
+        let personRepository: JscollatorRepository = new JscollatorRepository();
         personRepository.set('findAll', (params: Record<string, boolean>) => {
 
-            let qb: QueryBuilder = QueryBuilder.query(sqlQuery1);
+            let qb: JscollatorQueryBuilder = JscollatorQueryBuilder.query(sqlQuery1);
 
             if (params.order) {
                 qb.append(sqlQuery2);

@@ -1,5 +1,5 @@
 import {JscollatorConfig} from "./jscollator-config";
-import {JscollatorBuilder, JscollatorBuilderConfig} from "../jscollator-builder";
+import {JscollatorBuilder, JscollatorBuilderConfig} from "./jscollator-builder";
 import {JscollatorQuery} from "./jscollator-query";
 import {QueryType} from "./query-type";
 import {JscollatorTransaction} from "./jscollator-transaction";

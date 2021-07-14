@@ -1,8 +1,10 @@
 .idea/
 node_modules/
 src/
+tests/
+.babelrc
 .gitignore
 .npmrc
-*.bat
-Gruntfile.s
-jscellator-core.d.ts
+deploy_npm.bat
+tsconfig.json
+webpack.config.js

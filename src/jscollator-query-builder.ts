@@ -1,12 +1,10 @@
-import {Utils} from "./utils";
-
 /**
  * Query builder. ex. usage
  * QueryBuilder.of("select * from person");
  * QueryBuilder.query("select * from person").append("where id = :id").build();
  * new QueryBuilder().
  */
-export class QueryBuilder {
+export class JscollatorQueryBuilder {
 
     /**
      * Prefix from queries to be removed before sent to backend
@@ -25,22 +23,22 @@ export class QueryBuilder {
      * @param query
      */
     public static of(query: string): QueryBuilderResult {
-        return QueryBuilder.query(query).build();
+        return JscollatorQueryBuilder.query(query).build();
     }
 
     /**
      * Initializes query builder
      * @param query
      */
-    public static query(query: string): QueryBuilder {
-        return new QueryBuilder().append(query);
+    public static query(query: string): JscollatorQueryBuilder {
+        return new JscollatorQueryBuilder().append(query);
     }
 
     /**
      * Appends additional queries
      * @param query
      */
-    public append(query: string): QueryBuilder {
+    public append(query: string): JscollatorQueryBuilder {
         return this._queries.push(` ${query} `) && this;
     }
 
@@ -48,7 +46,7 @@ export class QueryBuilder {
      * Produces result for further usage
      */
     public build(): QueryBuilderResult {
-        return new QueryBuilderResult(QueryBuilder.removePrefixes(this._queries));
+        return new QueryBuilderResult(JscollatorQueryBuilder.removePrefixes(this._queries));
     }
 
     /**
